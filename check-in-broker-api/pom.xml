@@ -17,6 +17,11 @@
     <packaging>jar</packaging>
     
     <dependencies>
+        <dependency>
+            <groupId>com.fooluodi</groupId>
+            <artifactId>check-in-broker-common</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
     	
     </dependencies>
 
