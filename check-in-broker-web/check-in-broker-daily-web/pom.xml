@@ -42,27 +42,32 @@
         <mongo-java-driver.version>2.12.1</mongo-java-driver.version>
         <spring-data-mongodb.version>1.5.4.RELEASE</spring-data-mongodb.version>
 
+        <!-- validation-api -->
+        <validation-api-version>1.1.0.Final</validation-api-version>
+
     </properties>
 
     <dependencies>
+        <!--self-->
+        <dependency>
+            <groupId>com.fooluodi</groupId>
+            <artifactId>check-in-broker-common</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+
+        <!-- Validation -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation-api-version}</version>
+        </dependency>
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring-framework-version}</version>
         </dependency>
-        <!-- add dependencies for spring -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons-io-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>${commons-fileupload-version}</version>
-        </dependency>
-
         <!-- @Inject -->
         <dependency>
             <groupId>javax.inject</groupId>
@@ -109,12 +114,6 @@
             <version>${javaee-web-api-version}</version>
             <!--<scope>provided</scope>-->
         </dependency>
-
-        <!--<dependency>
-            <groupId>eleme-jarch</groupId>
-            <artifactId>pylon-core</artifactId>
-            <version>${pylon.impl.version}</version>
-        </dependency>-->
 
         <!-- mysql -->
         <dependency>
