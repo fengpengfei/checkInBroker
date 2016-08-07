@@ -15,7 +15,21 @@
     <version>0.1.0-SNAPSHOT</version>
     <name>check-in-broker-service</name>
     <packaging>jar</packaging>
-    
+
+
+    <properties>
+        <!-- mysql -->
+        <mysql-version>5.1.35</mysql-version>
+
+        <c3p0-version>0.9.1.2</c3p0-version>
+
+        <!--mybatis-->
+        <mybatis.version>3.2.8</mybatis.version>
+        <spring-mybatis.version>1.2.2</spring-mybatis.version>
+
+        <spring-framework-version>4.0.2.RELEASE</spring-framework-version>
+    </properties>
+
     <dependencies>
         <!--self-->
         <dependency>
@@ -28,6 +42,39 @@
             <groupId>com.fooluodi</groupId>
             <artifactId>check-in-broker-api</artifactId>
             <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring-framework-version}</version>
+        </dependency>
+
+        <!-- mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-version}</version>
+        </dependency>
+
+        <!-- datebase c3p0 pool -->
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0-version}</version>
+        </dependency>
+
+        <!-- mybatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${spring-mybatis.version}</version>
         </dependency>
 
     </dependencies>

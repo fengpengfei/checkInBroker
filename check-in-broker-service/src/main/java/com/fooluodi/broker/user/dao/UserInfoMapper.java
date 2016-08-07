@@ -3,6 +3,8 @@ package com.fooluodi.broker.user.dao;
 
 import com.fooluodi.broker.user.po.UserInfo;
 
+import java.util.List;
+
 public interface UserInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -15,4 +17,6 @@ public interface UserInfoMapper {
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
+
+    List<UserInfo> getUserByType(int userType);
 }
