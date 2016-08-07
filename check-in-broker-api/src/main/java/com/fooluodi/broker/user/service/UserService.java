@@ -25,4 +25,11 @@ public interface UserService {
      * @return
      */
     List<UserInfoBo> getAllValidUser();
+
+    /**
+     * 添加新用户
+     * @param userInfoBo
+     * @return
+     */
+    int addUser(UserInfoBo userInfoBo);
 }
