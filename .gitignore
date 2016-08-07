@@ -27,10 +27,6 @@ hs_err_pid*
 /*/target/*
 /target/
 /*/bin/*
-/*/log/*
-log
-/*/*/log/*
-/*/*/*/log/*
 *.properties
 # jetbrains project files
 /*/.idea/
