@@ -1,7 +1,9 @@
 package com.fooluodi.broker.operation.log.service.impl;
 
 import com.fooluodi.broker.operation.log.bo.LogBo;
+import com.fooluodi.broker.operation.log.dao.LogMapper;
 import com.fooluodi.broker.operation.log.service.LogService;
+import com.fooluodi.broker.operation.log.worker.OperationLogSaver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -17,8 +19,19 @@ public class LogServiceImpl implements LogService {
     @Resource(name = "asyncOperationLogThreadPool")
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
+    @Resource
+    private LogMapper logMapper;
+
     @Override
     public void asyncAddLog(LogBo log) {
-
+        try {
+            threadPoolTaskExecutor.execute(
+                    new OperationLogSaver(
+                            logMapper, log
+                    )
+            );
+        } catch (Exception e) {
+            logger.error("async save log error!", e);
+        }
     }
 }

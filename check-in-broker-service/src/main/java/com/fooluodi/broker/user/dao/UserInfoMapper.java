@@ -2,6 +2,7 @@ package com.fooluodi.broker.user.dao;
 
 
 import com.fooluodi.broker.user.po.UserInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface UserInfoMapper {
 
     int updateByPrimaryKey(UserInfo record);
 
-    List<UserInfo> getUserByType(int userType);
+    List<UserInfo> getUserByType(@Param("userType") int userType);
+
+    List<UserInfo> getAllUsers();
 }
