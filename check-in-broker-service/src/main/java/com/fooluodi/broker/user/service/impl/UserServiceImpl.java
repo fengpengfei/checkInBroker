@@ -1,6 +1,10 @@
 package com.fooluodi.broker.user.service.impl;
 
 import com.fooluodi.broker.exception.SystemException;
+import com.fooluodi.broker.operation.log.bo.LogBo;
+import com.fooluodi.broker.operation.log.constant.LogType;
+import com.fooluodi.broker.operation.log.po.Log;
+import com.fooluodi.broker.operation.log.service.LogService;
 import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.user.constant.UserDefaultConstant;
 import com.fooluodi.broker.user.constant.UserType;
@@ -29,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserInfoMapper userInfoMapper;
+
+    @Resource
+    private LogService logService;
 
     @Override
     public List<UserInfoBo> getAllUsers() {
@@ -78,6 +85,9 @@ public class UserServiceImpl implements UserService {
             throw new SystemException(UserExceptionCode.INSERT_USER_ERROR);
         }
 
+        this.saveLog(userInfoBo.getIsValid() == UserType.NORMAL_USER ? LogType.ADD_NEW_USER : LogType.ADD_NEW_ANONYMOUS_USER,
+                userInfo.getId(), userInfo.toString());
+
         return userInfo.getId();
     }
 
@@ -115,5 +125,17 @@ public class UserServiceImpl implements UserService {
         ValidateHelper.validate(userInfo);
 
         return this.addUser(userInfo);
+    }
+
+    private void saveLog(int type, int userId, String detail) {
+        LogBo log = new LogBo();
+
+        log.setOpType(type);
+        log.setUserId(userId);
+        log.setDetail(detail);
+        log.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        log.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+
+        logService.asyncAddLog(log);
     }
 }
