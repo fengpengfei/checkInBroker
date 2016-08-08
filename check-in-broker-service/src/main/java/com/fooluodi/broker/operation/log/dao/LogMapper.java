@@ -2,6 +2,8 @@ package com.fooluodi.broker.operation.log.dao;
 
 import com.fooluodi.broker.operation.log.po.Log;
 
+import java.util.List;
+
 public interface LogMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface LogMapper {
     int updateByPrimaryKeyWithBLOBs(Log record);
 
     int updateByPrimaryKey(Log record);
+
+    List<Log> getAll();
 }

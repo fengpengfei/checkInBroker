@@ -2,6 +2,9 @@ package com.fooluodi.broker.controllers;
 
 import com.fooluodi.broker.framework.ResponseEntity;
 import com.fooluodi.broker.framework.WebAPIBaseController;
+import com.fooluodi.broker.operation.log.bo.LogBo;
+import com.fooluodi.broker.operation.log.po.Log;
+import com.fooluodi.broker.operation.log.service.LogService;
 import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.user.service.UserService;
 import org.slf4j.Logger;
@@ -25,6 +28,9 @@ public class CmdController extends WebAPIBaseController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private LogService logService;
+
     //, produces = "application/json;charset=UTF-8"
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
     public ResponseEntity<?> addUser(String userName, String passwd){
@@ -44,5 +50,15 @@ public class CmdController extends WebAPIBaseController {
         List<UserInfoBo> allUsers = userService.getAllUsers();
 
         return ResponseEntity.success(allUsers);
+    }
+
+    @RequestMapping(value = "/logs", method = RequestMethod.GET)
+    public ResponseEntity<?> showLogs(){
+        logger.info("show all logs");
+
+        List<LogBo> allLogs = logService.getAllLogs();
+
+        logger.info("get sum:{}", allLogs);
+        return ResponseEntity.success(allLogs);
     }
 }
