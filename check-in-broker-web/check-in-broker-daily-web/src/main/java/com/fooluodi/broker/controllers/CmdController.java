@@ -73,7 +73,7 @@ public class CmdController extends WebAPIBaseController {
         return ResponseEntity.success(allLogs);
     }
 
-    @RequestMapping(value = "/logs/${type}", method = RequestMethod.GET)
+    @RequestMapping(value = "/logs/{type}", method = RequestMethod.GET)
     public ResponseEntity<?> showLogsByType(@PathVariable("type") int type) {
         logger.info("show logs by type:{}", type);
 
