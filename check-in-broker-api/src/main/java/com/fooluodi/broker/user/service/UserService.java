@@ -33,7 +33,7 @@ public interface UserService {
      */
     int addUser(UserInfoBo userInfoBo);
 
-    int addUser(String userName, String passwd);
+    int addUser(String userName, String passwd, String session);
 
     int addUser(String validSession);
 }

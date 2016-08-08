@@ -92,14 +92,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int addUser(String userName, String passwd) {
-        logger.info("add user, userName:{}, passwd:{}", userName, passwd);
+    public int addUser(String userName, String passwd, String session) {
+        logger.info("add user, userName:{}, passwd:{}, session:{}", userName, passwd, session);
 
         UserInfoBo userInfo = new UserInfoBo();
         userInfo.setUserName(userName);
         userInfo.setUserPasswd(passwd);
         userInfo.setIsValid(UserType.NORMAL_USER);
-        userInfo.setValidSession(UserDefaultConstant.DEFAULT_SESSION);
+        userInfo.setValidSession(session);
         userInfo.setCheckTimes(0);
         userInfo.setCreateTime(new Timestamp(System.currentTimeMillis()));
         userInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));

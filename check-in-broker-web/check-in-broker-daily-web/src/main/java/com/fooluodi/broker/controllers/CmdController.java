@@ -32,10 +32,10 @@ public class CmdController extends WebAPIBaseController {
 
     //, produces = "application/json;charset=UTF-8"
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
-    public ResponseEntity<?> addUser(String userName, String passwd) {
-        logger.info("add new user, userName:{}, passwd:{}", userName, passwd);
+    public ResponseEntity<?> addUser(String userName, String passwd, String session) {
+        logger.info("add new user, userName:{}, passwd:{}, session:{}", userName, passwd, session);
 
-        int id = userService.addUser(userName, passwd);
+        int id = userService.addUser(userName, passwd, session);
 
         logger.info("add user success, userId:{}", id);
 
