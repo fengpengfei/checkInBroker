@@ -24,7 +24,8 @@
   <select id="getUserByType" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
-    from is_valid = #{userType}
+    from user_info
+    where is_valid = #{userType}
   </select>
 
   <select id="getAllUsers" resultMap="BaseResultMap"  >
