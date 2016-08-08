@@ -1,6 +1,7 @@
 package com.fooluodi.broker.operation.log.dao;
 
 import com.fooluodi.broker.operation.log.po.Log;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface LogMapper {
     int updateByPrimaryKey(Log record);
 
     List<Log> getAll();
+
+    List<Log> getByType(@Param("type") int type);
 }

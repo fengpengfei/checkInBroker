@@ -34,6 +34,15 @@
     from operation_log
   </select>
 
+  <select id="getByType" resultType="com.fooluodi.broker.operation.log.po.Log">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from operation_log
+    where op_type = #{type}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from operation_log
     where id = #{id,jdbcType=INTEGER}

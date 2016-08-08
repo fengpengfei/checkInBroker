@@ -19,4 +19,11 @@ public interface LogService {
      * @return
      */
     List<LogBo> getAllLogs();
+
+    /**
+     * 根据类型获取
+     * @param type
+     * @return
+     */
+    List<LogBo> getLogsByType(int type);
 }

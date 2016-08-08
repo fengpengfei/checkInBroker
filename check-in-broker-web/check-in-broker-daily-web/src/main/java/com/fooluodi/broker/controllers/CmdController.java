@@ -8,6 +8,7 @@ import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,7 +69,17 @@ public class CmdController extends WebAPIBaseController {
 
         List<LogBo> allLogs = logService.getAllLogs();
 
-        logger.info("get sum:{}", allLogs);
+        logger.info("get sum:{}", allLogs.size());
+        return ResponseEntity.success(allLogs);
+    }
+
+    @RequestMapping(value = "/logs/${type}", method = RequestMethod.GET)
+    public ResponseEntity<?> showLogsByType(@PathVariable("type") int type) {
+        logger.info("show logs by type:{}", type);
+
+        List<LogBo> allLogs = logService.getLogsByType(type);
+
+        logger.info("get sum:{}", allLogs.size());
         return ResponseEntity.success(allLogs);
     }
 }

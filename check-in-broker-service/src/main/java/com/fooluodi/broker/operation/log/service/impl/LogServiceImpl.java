@@ -61,4 +61,19 @@ public class LogServiceImpl implements LogService {
 
         return bos;
     }
+
+    @Override
+    public List<LogBo> getLogsByType(int type) {
+        logger.info("get logs by type:{}", type);
+
+        List<Log> logList;
+        try{
+            logList = logMapper.getByType(type);
+        }catch (Exception e){
+            logger.error("get logs error!", e);
+            throw new SystemException(LogExceptionCode.GET_LOG_ERROR, e);
+        }
+
+        return CopyUtils.copyList(logList, LogBo.class);
+    }
 }
