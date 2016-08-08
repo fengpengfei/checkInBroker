@@ -1,7 +1,9 @@
 package com.fooluodi.broker.util.validate.function;
 
 
+import com.fooluodi.broker.exception.SystemException;
 import com.fooluodi.broker.util.validate.ValidateException.ValidateException;
+import com.fooluodi.broker.util.validate.ValidateException.ValidatorExceptionCode;
 import com.fooluodi.broker.util.validate.annotation.Max;
 import com.fooluodi.broker.util.validate.annotation.Min;
 import com.fooluodi.broker.util.validate.annotation.NotNull;
@@ -20,11 +22,11 @@ public class ValidateHelper {
     /**
      * default value
      */
-    private static final ValidateException DEFAULT_EXCEPTION = new ValidateException();
+    private static final SystemException DEFAULT_EXCEPTION = new SystemException(ValidatorExceptionCode.ARG_VALIDATE_FAILED);
     private static final boolean DEFAULT_IS_DEEP = false;
     private static final boolean DEFAULT_FORCE_EXCEPTION = false;
 
-    private static final ValidateException NULL_EXCEPTION = new ValidateException("Target can not be null!");
+    private static final SystemException NULL_EXCEPTION = new SystemException(ValidatorExceptionCode.TARGET_CAN_NOT_BE_NULL);
 
     /**
      * effective annotations

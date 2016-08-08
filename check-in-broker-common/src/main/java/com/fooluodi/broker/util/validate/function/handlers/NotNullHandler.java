@@ -2,6 +2,7 @@ package com.fooluodi.broker.util.validate.function.handlers;
 
 
 import com.fooluodi.broker.util.validate.ValidateException.ValidateException;
+import com.fooluodi.broker.util.validate.ValidateException.ValidatorExceptionCode;
 
 import java.lang.reflect.Field;
 
@@ -37,7 +38,7 @@ public class NotNullHandler extends AbstractHandler {
         }
 
         if (isNull) {
-            throw forceException ? exception : new ValidateException(String.format("%s 's field :%s can not be null!", beanName, fieldName));
+            throw forceException ? exception : new ValidateException(ValidatorExceptionCode.ARG_VALIDATE_FAILED, String.format("%s 's field :%s can not be null!", beanName, fieldName));
         }
     }
 

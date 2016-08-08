@@ -38,7 +38,7 @@
     delete from user_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.fooluodi.broker.user.po.UserInfo" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fooluodi.broker.user.po.UserInfo" >
     insert into user_info (id, user_name, user_passwd, 
       valid_session, check_times, is_valid, 
       create_time, update_time)

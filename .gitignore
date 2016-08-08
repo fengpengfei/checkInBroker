@@ -36,7 +36,6 @@ hs_err_pid*
 # eclipse project files
 *.classpath
 *.project
-logback.xml
 .settings/*
 /*/.backList
 #idea

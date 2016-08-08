@@ -29,7 +29,7 @@
     delete from operation_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.fooluodi.broker.operation.log.po.Log" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fooluodi.broker.operation.log.po.Log" >
     insert into operation_log (id, op_type, user_id, 
       create_time, update_time, detail
       )

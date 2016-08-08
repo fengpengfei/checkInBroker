@@ -32,4 +32,8 @@ public interface UserService {
      * @return
      */
     int addUser(UserInfoBo userInfoBo);
+
+    int addUser(String userName, String passwd);
+
+    int addUser(String validSession);
 }

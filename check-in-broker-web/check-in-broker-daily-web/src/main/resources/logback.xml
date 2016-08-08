@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="appid" value="check_in_broker" />
+    <!-- 输出到文件 -->
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <file>/data/applogs/${appid}/broker.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/data/applogs/${appid}/broker.log.%d{yyyyMMdd}
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level %logger - %msg%n"></pattern>
+        </encoder>
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date [%thread] %-5level %logger - %msg%n"></pattern>
+        </layout>
+    </appender>
+
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>%date [%thread] %-5level %logger - %msg%n"></pattern>
+        </encoder>
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date [%thread] %-5level %logger - %msg%n"></pattern>
+        </layout>
+    </appender>
+
+    <root>
+        <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+</configuration>

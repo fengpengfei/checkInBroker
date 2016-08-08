@@ -1,5 +1,7 @@
 package com.fooluodi.broker.user.bo;
 
+import com.fooluodi.broker.util.validate.annotation.NotNull;
+
 import java.sql.Timestamp;
 
 /**
@@ -8,14 +10,18 @@ import java.sql.Timestamp;
 public class UserInfoBo {
     private Integer id;
 
+    @NotNull
     private String userName;
 
+    @NotNull
     private String userPasswd;
 
+    @NotNull
     private String validSession;
 
     private Integer checkTimes;
 
+    @NotNull
     private Integer isValid;
 
     private Timestamp createTime;

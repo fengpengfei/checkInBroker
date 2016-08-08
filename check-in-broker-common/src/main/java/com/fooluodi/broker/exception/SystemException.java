@@ -42,7 +42,7 @@ public class SystemException extends RuntimeException {
     public SystemException(IExceptionCode code, String message) {
         super(message);
         this.errorCode = ExceptionHelper.getCode(code);
-        this.errorMessage = ExceptionHelper.getMessage(code);
+        this.errorMessage = message;
     }
 
     public SystemException(IExceptionCode code, Throwable cause) {
