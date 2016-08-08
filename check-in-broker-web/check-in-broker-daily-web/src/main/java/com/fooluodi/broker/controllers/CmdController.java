@@ -3,7 +3,6 @@ package com.fooluodi.broker.controllers;
 import com.fooluodi.broker.framework.ResponseEntity;
 import com.fooluodi.broker.framework.WebAPIBaseController;
 import com.fooluodi.broker.operation.log.bo.LogBo;
-import com.fooluodi.broker.operation.log.po.Log;
 import com.fooluodi.broker.operation.log.service.LogService;
 import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.user.service.UserService;
@@ -33,7 +32,7 @@ public class CmdController extends WebAPIBaseController {
 
     //, produces = "application/json;charset=UTF-8"
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
-    public ResponseEntity<?> addUser(String userName, String passwd){
+    public ResponseEntity<?> addUser(String userName, String passwd) {
         logger.info("add new user, userName:{}, passwd:{}", userName, passwd);
 
         int id = userService.addUser(userName, passwd);
@@ -44,7 +43,7 @@ public class CmdController extends WebAPIBaseController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<?> showUsers(){
+    public ResponseEntity<?> showUsers() {
         logger.info("show all users");
 
         List<UserInfoBo> allUsers = userService.getAllUsers();
@@ -53,7 +52,7 @@ public class CmdController extends WebAPIBaseController {
     }
 
     @RequestMapping(value = "/logs", method = RequestMethod.GET)
-    public ResponseEntity<?> showLogs(){
+    public ResponseEntity<?> showLogs() {
         logger.info("show all logs");
 
         List<LogBo> allLogs = logService.getAllLogs();
