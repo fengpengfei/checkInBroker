@@ -2,6 +2,7 @@ package com.fooluodi.broker.controllers;
 
 import com.fooluodi.broker.framework.ResponseEntity;
 import com.fooluodi.broker.framework.WebAPIBaseController;
+import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by di on 8/8/2016.
@@ -33,5 +35,14 @@ public class CmdController extends WebAPIBaseController {
         logger.info("add user success, userId:{}", id);
 
         return ResponseEntity.success(id);
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public ResponseEntity<?> showUsers(){
+        logger.info("show all users");
+
+        List<UserInfoBo> allUsers = userService.getAllUsers();
+
+        return ResponseEntity.success(allUsers);
     }
 }
