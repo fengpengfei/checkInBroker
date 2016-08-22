@@ -6,6 +6,7 @@ import com.fooluodi.broker.operation.log.service.LogService;
 import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.util.http.HttpResponseEntity;
 import com.fooluodi.broker.util.json.JsonHelper;
+import com.fooluodi.broker.util.time.DateUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -26,6 +27,7 @@ import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -181,12 +183,18 @@ public class CheckInServiceImpl implements CheckInService {
             String[] split1 = s.split("=");
             if (split1.length != 2) continue;
 
-            //if (needCookies.contains(split1[0].trim())) {
-            cookieMap.put(split1[0].trim(), split1[1].trim());
-//            }
+            if (needCookies.contains(split1[0].trim())) {
+                cookieMap.put(split1[0].trim(), split1[1].trim());
+            }
         }
-        return cookieMap;
+        return appendCookies(cookieMap);
     }
 
+    private Map<String, String> appendCookies(Map<String, String> map) {
+        //增加打卡时间
+        Date now = new Date();
+        map.put("date", now.getTime() + "");
 
+        return map;
+    }
 }
