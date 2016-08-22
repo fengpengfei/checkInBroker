@@ -2,11 +2,12 @@ package com.fooluodi.broker.checkin;
 
 import com.fooluodi.broker.checkin.poi.POI;
 import com.fooluodi.broker.checkin.poi.POIGen;
+import com.fooluodi.broker.operation.log.bo.LogBo;
+import com.fooluodi.broker.operation.log.constant.LogType;
 import com.fooluodi.broker.operation.log.service.LogService;
 import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.util.http.HttpResponseEntity;
 import com.fooluodi.broker.util.json.JsonHelper;
-import com.fooluodi.broker.util.time.DateUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -64,6 +65,8 @@ public class CheckInServiceImpl implements CheckInService {
     public boolean checkIn(UserInfoBo userInfoBo) {
         logger.info("user:{}, begin check in.", userInfoBo);
 
+        boolean result = false;
+
         //entity
         POI poi = POIGen.randomPoi();
         logger.info("random a poi:{}", poi);
@@ -85,9 +88,23 @@ public class CheckInServiceImpl implements CheckInService {
 
         } catch (IOException e) {
             logger.error("check in error!", e);
-            return false;
+            result = false;
         }
-        return true;
+        result = true;
+
+        this.saveOplog(userInfoBo.getId(), "checkin 4 user:" + userInfoBo, result);
+        return result;
+    }
+
+    private void saveOplog(int userId, String detail, boolean isSuccess) {
+        LogBo log = new LogBo();
+
+        log.setUserId(userId);
+        log.setDetail(detail + "\nresult:" + isSuccess);
+        log.setOpType(LogType.CHECK_IN);
+        log.setCreateTime(new Timestamp(System.currentTimeMillis()));
+
+        logService.asyncAddLog(log);
     }
 
     private String map2CookieStr(Map<String, String> cookieMap) {

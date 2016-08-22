@@ -17,6 +17,25 @@ public class POI {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof POI)) return false;
+
+        POI poi = (POI) o;
+
+        if (lat != null ? !lat.equals(poi.lat) : poi.lat != null) return false;
+        return lon != null ? lon.equals(poi.lon) : poi.lon == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = lat != null ? lat.hashCode() : 0;
+        result = 31 * result + (lon != null ? lon.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("POI{");
         sb.append("lat=").append(lat);
