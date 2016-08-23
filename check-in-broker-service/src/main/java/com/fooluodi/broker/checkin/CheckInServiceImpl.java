@@ -54,8 +54,8 @@ public class CheckInServiceImpl implements CheckInService {
         connectionManager.setMaxTotal(1000);
         connectionManager.setDefaultMaxPerRoute(200);
         HttpParams my_httpParams = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(my_httpParams, 500000);
-        HttpConnectionParams.setSoTimeout(my_httpParams, 5000000);
+        HttpConnectionParams.setConnectionTimeout(my_httpParams, 5000);
+        HttpConnectionParams.setSoTimeout(my_httpParams, 50000);
         client = new DefaultHttpClient(connectionManager, my_httpParams);
     }
 
@@ -65,11 +65,13 @@ public class CheckInServiceImpl implements CheckInService {
     public boolean checkIn(UserInfoBo userInfoBo) {
         logger.info("user:{}, begin check in.", userInfoBo);
 
-        boolean result = false;
+        boolean result = true;
 
         //entity
         POI poi = POIGen.randomPoi();
         logger.info("random a poi:{}", poi);
+
+        StringBuilder logDetail = new StringBuilder();
 
         //header
         String session = userInfoBo.getValidSession().trim();
@@ -81,18 +83,19 @@ public class CheckInServiceImpl implements CheckInService {
 
         defaultHeaders.put("Cookie", cookieStr);
 
+        logDetail.append("check in for:").append(userInfoBo).append("\n");
         try {
             HttpResponseEntity responseEntity = doJsonPost(CHECK_IN_URL, JsonHelper.transObjToJsonString(poi), defaultHeaders, ENCODE_UTF8, REDIRECT_LIMIT_MAX);
 
-            System.out.println(responseEntity);
+            logDetail.append("check in result:").append(responseEntity.getResponseCode()).append("\n")
+                    .append( " result body:").append(responseEntity.getResponseContent()).append("\n");
 
         } catch (IOException e) {
             logger.error("check in error!", e);
             result = false;
         }
-        result = true;
 
-        this.saveOplog(userInfoBo.getId(), "checkin 4 user:" + userInfoBo, result);
+        this.saveOplog(userInfoBo.getId(), logDetail.toString(), result);
         return result;
     }
 
@@ -146,12 +149,14 @@ public class CheckInServiceImpl implements CheckInService {
     private HttpResponseEntity exec(HttpPost post, String jsonEntity, Map<String, String> headers, String encoding, int tryTimes) throws IOException {
         HttpResponse execute = client.execute(post);
 
+        logger.info("response code:{}", execute.getStatusLine().getStatusCode());
+
         BufferedReader rd = new BufferedReader(
                 new InputStreamReader(execute.getEntity().getContent()));
 
         String line = "";
         while ((line = rd.readLine()) != null) {
-            System.out.println(line);
+            logger.info("response:{}", line);
         }
         Header locationHeader = execute.getFirstHeader("location");
         // 返回代码为302,301时，表示页面己经重定向，则重新请求location的url。
