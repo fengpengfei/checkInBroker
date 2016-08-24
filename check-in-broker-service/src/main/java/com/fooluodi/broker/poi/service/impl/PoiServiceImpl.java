@@ -60,7 +60,9 @@ public class PoiServiceImpl implements PoiService {
             return DEFAULT_POI;
 
         POI poi = new POI();
-        BeanUtils.copyProperties(poiPo, poi);
+        poi.setLat(poiPo.getLatitude());
+        poi.setLon(poiPo.getLongitude());
+
         return poi;
 
     }
