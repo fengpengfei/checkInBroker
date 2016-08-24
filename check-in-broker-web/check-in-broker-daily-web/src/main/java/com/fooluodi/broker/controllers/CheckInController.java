@@ -24,14 +24,12 @@ public class CheckInController {
     @Resource
     private CheckInService checkInService;
 
-    @Resource
-    private UserService userService;
-
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public ResponseEntity<?> checkIn4User(@PathVariable("userId") int userId) {
         logger.info("check in for userId:{}", userId);
 
+        boolean checkIn = checkInService.checkIn(userId);
 
-        return ResponseEntity.success(null);
+        return ResponseEntity.success(checkIn);
     }
 }
