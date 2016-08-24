@@ -6,6 +6,7 @@ import com.fooluodi.broker.poi.dao.PoiPoMapper;
 import com.fooluodi.broker.poi.po.PoiPo;
 import com.fooluodi.broker.poi.service.PoiService;
 import com.fooluodi.broker.util.validate.function.ValidateHelper;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -52,11 +53,12 @@ public class PoiServiceImpl implements PoiService {
         ArrayList<PoiPo> poiList = new ArrayList<>(PoiCache.INSTANCE.poiSet);
         Collections.shuffle(poiList);
 
+
+        if (CollectionUtils.isEmpty(poiList)) {
+            return DEFAULT_POI;
+        }
         PoiPo poiPo = poiList.get(0);
         logger.info("poi:{}", poiPo);
-
-        if (poiPo == null)
-            return DEFAULT_POI;
 
         POI poi = new POI();
         poi.setLat(poiPo.getLatitude());

@@ -117,9 +117,7 @@ public class CheckInServiceImpl implements CheckInService {
         UserInfoBo userById = userService.getUserById(userId);
 
         logger.info("find user!user:{}", userById);
-        this.checkIn(userById);
-
-        return false;
+        return this.checkIn(userById);
     }
 
     private void saveOplog(int userId, String detail, boolean isSuccess) {
@@ -177,9 +175,12 @@ public class CheckInServiceImpl implements CheckInService {
         BufferedReader rd = new BufferedReader(
                 new InputStreamReader(execute.getEntity().getContent()));
 
+
+        StringBuilder stringBuilder = new StringBuilder();
         String line = "";
         while ((line = rd.readLine()) != null) {
             logger.info("response:{}", line);
+            stringBuilder.append(line);
         }
         Header locationHeader = execute.getFirstHeader("location");
         // 返回代码为302,301时，表示页面己经重定向，则重新请求location的url。
@@ -190,7 +191,7 @@ public class CheckInServiceImpl implements CheckInService {
 
         HttpResponseEntity result = new HttpResponseEntity();
         result.setResponseCode(execute.getStatusLine().getStatusCode());
-        result.setResponseContent(EntityUtils.toString(execute.getEntity()));
+        result.setResponseContent(stringBuilder.toString());
         return result;
     }
 
