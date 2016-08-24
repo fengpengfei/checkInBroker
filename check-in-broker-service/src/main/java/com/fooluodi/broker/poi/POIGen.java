@@ -1,4 +1,6 @@
-package com.fooluodi.broker.checkin.poi;
+package com.fooluodi.broker.poi;
+
+import com.fooluodi.broker.poi.bo.POI;
 
 import java.math.BigDecimal;
 import java.util.*;

@@ -1,7 +1,7 @@
 package com.fooluodi.broker.checkin;
 
-import com.fooluodi.broker.checkin.poi.POI;
-import com.fooluodi.broker.checkin.poi.POIGen;
+import com.fooluodi.broker.poi.bo.POI;
+import com.fooluodi.broker.poi.POIGen;
 import com.fooluodi.broker.operation.log.bo.LogBo;
 import com.fooluodi.broker.operation.log.constant.LogType;
 import com.fooluodi.broker.operation.log.service.LogService;

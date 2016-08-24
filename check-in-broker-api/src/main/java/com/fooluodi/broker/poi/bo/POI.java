@@ -1,4 +1,6 @@
-package com.fooluodi.broker.checkin.poi;
+package com.fooluodi.broker.poi.bo;
+
+import com.fooluodi.broker.util.validate.annotation.NotNull;
 
 import java.math.BigDecimal;
 
@@ -7,8 +9,11 @@ import java.math.BigDecimal;
  */
 public class POI {
     //维度
+    @NotNull
     private BigDecimal lat;
+
     //经度
+    @NotNull
     private BigDecimal lon;
 
     public POI(BigDecimal lat, BigDecimal lon) {
