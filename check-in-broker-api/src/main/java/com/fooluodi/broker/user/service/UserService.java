@@ -36,4 +36,12 @@ public interface UserService {
     int addUser(String userName, String passwd, String session);
 
     int addUser(String validSession);
+
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    UserInfoBo getUserById(int userId);
+
 }

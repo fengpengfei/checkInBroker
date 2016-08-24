@@ -12,4 +12,11 @@ public interface CheckInService {
      * @return
      */
     boolean checkIn(UserInfoBo userInfoBo);
+
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    boolean checkIn(int userId);
 }

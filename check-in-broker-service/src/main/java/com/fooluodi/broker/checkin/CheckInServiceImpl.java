@@ -6,6 +6,7 @@ import com.fooluodi.broker.operation.log.constant.LogType;
 import com.fooluodi.broker.operation.log.service.LogService;
 import com.fooluodi.broker.poi.service.PoiService;
 import com.fooluodi.broker.user.bo.UserInfoBo;
+import com.fooluodi.broker.user.service.UserService;
 import com.fooluodi.broker.util.http.HttpResponseEntity;
 import com.fooluodi.broker.util.json.JsonHelper;
 import org.apache.commons.collections.map.HashedMap;
@@ -50,6 +51,9 @@ public class CheckInServiceImpl implements CheckInService {
 
     @Resource
     private PoiService poiService;
+
+    @Resource
+    private UserService userService;
 
     public static PoolingClientConnectionManager connectionManager = new PoolingClientConnectionManager();
     public static HttpClient client;
@@ -104,6 +108,18 @@ public class CheckInServiceImpl implements CheckInService {
 
         this.saveOplog(userInfoBo.getId(), logDetail.toString(), result);
         return result;
+    }
+
+    @Override
+    public boolean checkIn(int userId) {
+        logger.info("check in for user:{}", userId);
+
+        UserInfoBo userById = userService.getUserById(userId);
+
+        logger.info("find user!user:{}", userById);
+        this.checkIn(userById);
+
+        return false;
     }
 
     private void saveOplog(int userId, String detail, boolean isSuccess) {

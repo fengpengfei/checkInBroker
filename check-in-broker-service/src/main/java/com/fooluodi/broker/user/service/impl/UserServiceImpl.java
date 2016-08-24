@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -125,6 +126,25 @@ public class UserServiceImpl implements UserService {
         ValidateHelper.validate(userInfo);
 
         return this.addUser(userInfo);
+    }
+
+    @Override
+    public UserInfoBo getUserById(int userId) {
+        logger.info("get user by id:{}", userId);
+
+        UserInfo userInfo;
+        try {
+            userInfo = userInfoMapper.selectByPrimaryKey(userId);
+
+            Assert.notNull(userInfo, "user not found!");
+        }catch (Exception e){
+            logger.error("user id not valid!", e);
+            throw new SystemException(UserExceptionCode.USER_NOT_FOUND);
+        }
+        UserInfoBo userInfoBo = new UserInfoBo();
+        BeanUtils.copyProperties(userInfo, userInfoBo);
+
+        return userInfoBo;
     }
 
     private void saveLog(int type, int userId, String detail) {

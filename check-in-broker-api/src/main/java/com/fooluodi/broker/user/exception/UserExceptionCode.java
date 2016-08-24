@@ -9,4 +9,7 @@ import com.fooluodi.broker.exception.IExceptionCode;
 public enum  UserExceptionCode implements IExceptionCode {
     @Desc(value = "新增用户失败", code = "INSERT_USER_ERROR")
     INSERT_USER_ERROR,
+
+    @Desc(value = "用户id不存在", code = "USER_NOT_FOUND")
+    USER_NOT_FOUND,
 }
