@@ -18,6 +18,27 @@ public class PoiPo {
     private Timestamp updateTime;
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PoiPo)) return false;
+
+        PoiPo poiPo = (PoiPo) o;
+
+        if (longitude != null ? !longitude.equals(poiPo.longitude) : poiPo.longitude != null) return false;
+        if (latitude != null ? !latitude.equals(poiPo.latitude) : poiPo.latitude != null) return false;
+        return isValid != null ? isValid.equals(poiPo.isValid) : poiPo.isValid == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = longitude != null ? longitude.hashCode() : 0;
+        result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
+        result = 31 * result + (isValid != null ? isValid.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("PoiPo{");
         sb.append("id=").append(id);
