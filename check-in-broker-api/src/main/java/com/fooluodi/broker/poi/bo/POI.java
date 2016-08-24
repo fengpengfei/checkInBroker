@@ -21,6 +21,9 @@ public class POI {
         this.lon = lon;
     }
 
+    public POI() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

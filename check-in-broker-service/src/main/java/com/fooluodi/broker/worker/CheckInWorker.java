@@ -1,12 +1,15 @@
 package com.fooluodi.broker.worker;
 
 import com.fooluodi.broker.checkin.CheckInService;
+import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by di on 23/8/2016.
@@ -18,12 +21,47 @@ public class CheckInWorker {
     @Resource
     private CheckInService checkInService;
 
+    private static final int DEFAULT_TRY_TIMES = 3;
+
+    private static final int SLEEP_BASE_TIME_MIN = 5;
+    private static final int SLEEP_RANDOM_LIMIT_TIME_MAX = 20;
+
+
+
     @Resource
     private UserService userService;
 
+    //9, 16, 20, 22 点自动运行
     public void exec() {
         long start = System.currentTimeMillis();
         logger.info("worker begin!");
 
+        List<UserInfoBo> allUsers = userService.getAllUsers();
+
+        //休息随机时间, 5分钟 + 20分钟内随机时间
+        Random random = new Random();
+        int i = random.nextInt(SLEEP_RANDOM_LIMIT_TIME_MAX);
+
+        try {
+            logger.info("going to sleep:{} min.", SLEEP_BASE_TIME_MIN + i);
+            Thread.sleep((SLEEP_BASE_TIME_MIN + i) * 60 * 1000);
+        } catch (InterruptedException e) {
+        }
+
+        allUsers.stream().forEach(user -> {
+            try {
+                this.checkInWithTryTimes(user, DEFAULT_TRY_TIMES);
+            } catch (Exception e) {
+                logger.error("user:{}, check in failed!", user, e);
+            }
+        });
+
+        logger.info("exec done!last:{} ms", System.currentTimeMillis() - start);
+    }
+
+    private boolean checkInWithTryTimes(UserInfoBo user, int tryTimes) {
+        if (tryTimes <= 0)
+            return false;
+        return checkInService.checkIn(user) || checkInWithTryTimes(user, --tryTimes);
     }
 }

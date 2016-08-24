@@ -1,10 +1,10 @@
 package com.fooluodi.broker.checkin;
 
 import com.fooluodi.broker.poi.bo.POI;
-import com.fooluodi.broker.poi.POIGen;
 import com.fooluodi.broker.operation.log.bo.LogBo;
 import com.fooluodi.broker.operation.log.constant.LogType;
 import com.fooluodi.broker.operation.log.service.LogService;
+import com.fooluodi.broker.poi.service.PoiService;
 import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.util.http.HttpResponseEntity;
 import com.fooluodi.broker.util.json.JsonHelper;
@@ -23,6 +23,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.io.BufferedReader;
@@ -47,6 +48,9 @@ public class CheckInServiceImpl implements CheckInService {
     @Resource
     private LogService logService;
 
+    @Resource
+    private PoiService poiService;
+
     public static PoolingClientConnectionManager connectionManager = new PoolingClientConnectionManager();
     public static HttpClient client;
 
@@ -68,7 +72,8 @@ public class CheckInServiceImpl implements CheckInService {
         boolean result = true;
 
         //entity
-        POI poi = POIGen.randomPoi();
+        POI poi = poiService.getRandomPoi();
+        Assert.notNull(poi, "no valid poi!");
         logger.info("random a poi:{}", poi);
 
         StringBuilder logDetail = new StringBuilder();
@@ -86,6 +91,8 @@ public class CheckInServiceImpl implements CheckInService {
         logDetail.append("check in for:").append(userInfoBo).append("\n");
         try {
             HttpResponseEntity responseEntity = doJsonPost(CHECK_IN_URL, JsonHelper.transObjToJsonString(poi), defaultHeaders, ENCODE_UTF8, REDIRECT_LIMIT_MAX);
+
+            Assert.isTrue(responseEntity.getResponseCode() == 200, "failed!");
 
             logDetail.append("check in result:").append(responseEntity.getResponseCode()).append("\n")
                     .append( " result body:").append(responseEntity.getResponseContent()).append("\n");

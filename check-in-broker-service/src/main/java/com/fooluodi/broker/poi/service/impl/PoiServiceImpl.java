@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by di on 24/8/2016.
@@ -39,6 +40,26 @@ public class PoiServiceImpl implements PoiService {
 
     @Override
     public POI getRandomPoi() {
+        logger.info("get random poi");
+
+        int size = PoiCache.INSTANCE.poiSet.size();
+
+        if (size == 0)
+            return null;
+
+        Random random = new Random();
+        int i = random.nextInt(size);
+
+        int flag = 0;
+        for (PoiPo poi : PoiCache.INSTANCE.poiSet) {
+            if (flag == i){
+                POI result = new POI();
+                BeanUtils.copyProperties(poi, result);
+                logger.info("get!{}", result);
+                return result;
+            }
+        }
+
         return null;
     }
 

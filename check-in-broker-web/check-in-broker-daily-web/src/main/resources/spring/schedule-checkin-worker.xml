@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 					http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        				">
+
+    <bean id="checkInWorker"  class="com.fooluodi.broker.worker.CheckInWorker"/>
+
+    <!-- 自动打卡worker -->
+    <bean id="voucherWorkerJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="checkInWorker" />
+        <property name="targetMethod" value="exec" />
+
+    </bean>
+
+    <bean id="checkinWorkerScheduledJobTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="voucherWorkerJob" />
+        <!-- 每天9点, 16点, 20点, 22点执行 -->
+        <property name="cronExpression" value="? * 9,14,20,22 * * ?" />
+
+        <!--for test run per Min-->
+        <!--<property name="cronExpression" value="0 0/1 * * * ?" />-->
+    </bean>
+
+    <!-- Scheduler factory bean to glue together jobDetails and triggers to Configure Quartz Scheduler -->
+    <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="voucherWorkerJob" />
+            </list>
+        </property>
+
+        <property name="triggers">
+            <list>
+                <ref bean="checkinWorkerScheduledJobTrigger" />
+            </list>
+        </property>
+    </bean>
+
+</beans>
