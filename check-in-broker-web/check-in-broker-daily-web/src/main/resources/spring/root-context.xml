@@ -27,6 +27,7 @@
     <import resource="database-config.xml"/>
     <import resource="threadpoll-config.xml"/>
 
+    <import resource="schedule-checkin-worker.xml"/>
 
 </beans>
 

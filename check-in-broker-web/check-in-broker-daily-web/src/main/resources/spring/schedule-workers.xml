@@ -6,34 +6,48 @@
         				">
 
     <bean id="checkInWorker"  class="com.fooluodi.broker.worker.CheckInWorker"/>
-
     <!-- 自动打卡worker -->
     <bean id="voucherWorkerJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="checkInWorker" />
         <property name="targetMethod" value="exec" />
 
     </bean>
-
+    <!-- 自动打卡trigger -->
     <bean id="checkinWorkerScheduledJobTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="voucherWorkerJob" />
         <!-- 每天9点, 16点, 20点, 22点执行 -->
         <property name="cronExpression" value="? * 9,14,20,22 * * ?" />
-
-        <!--for test run per Min-->
-        <!--<property name="cronExpression" value="0 0/1 * * * ?" />-->
     </bean>
+
+
+    <bean id="syncPoi" class="com.fooluodi.broker.worker.PoiSyncWorker"/>
+    <!-- sync poi -->
+    <bean id="syncPoiWorker" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="syncPoi" />
+        <property name="targetMethod" value="sync" />
+    </bean>
+
+    <!-- sync poi -->
+    <bean id="poiWorkerScheduledJobTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="syncPoiWorker" />
+        <!--for run per Min-->
+        <property name="cronExpression" value="0 0/1 * * * ?" />
+    </bean>
+
 
     <!-- Scheduler factory bean to glue together jobDetails and triggers to Configure Quartz Scheduler -->
     <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="jobDetails">
             <list>
                 <ref bean="voucherWorkerJob" />
+                <ref bean="syncPoiWorker" />
             </list>
         </property>
 
         <property name="triggers">
             <list>
                 <ref bean="checkinWorkerScheduledJobTrigger" />
+                <ref bean="poiWorkerScheduledJobTrigger" />
             </list>
         </property>
     </bean>
