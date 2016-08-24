@@ -54,6 +54,8 @@ public class PoiServiceImpl implements PoiService {
         Collections.shuffle(poiList);
 
         PoiPo poiPo = poiList.get(0);
+        logger.info("poi:{}", poiPo);
+
         if (poiPo == null)
             return DEFAULT_POI;
 
