@@ -12,6 +12,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -21,6 +24,11 @@ import java.util.Random;
 @Service
 public class PoiServiceImpl implements PoiService {
     private static final Logger logger = LoggerFactory.getLogger(PoiServiceImpl.class);
+
+    private static final POI DEFAULT_POI = new POI(
+            BigDecimal.valueOf(121.417819D),
+            BigDecimal.valueOf(31.218425D)
+    );
 
     @Resource
     private PoiPoMapper poiPoMapper;
@@ -42,25 +50,17 @@ public class PoiServiceImpl implements PoiService {
     public POI getRandomPoi() {
         logger.info("get random poi");
 
-        int size = PoiCache.INSTANCE.poiSet.size();
+        ArrayList<PoiPo> poiList = new ArrayList<>(PoiCache.INSTANCE.poiSet);
+        Collections.shuffle(poiList);
 
-        if (size == 0)
-            return null;
+        PoiPo poiPo = poiList.get(0);
+        if (poiPo == null)
+            return DEFAULT_POI;
 
-        Random random = new Random();
-        int i = random.nextInt(size);
+        POI poi = new POI();
+        BeanUtils.copyProperties(poiPo, poi);
+        return poi;
 
-        int flag = 0;
-        for (PoiPo poi : PoiCache.INSTANCE.poiSet) {
-            if (flag == i){
-                POI result = new POI();
-                BeanUtils.copyProperties(poi, result);
-                logger.info("get!{}", result);
-                return result;
-            }
-        }
-
-        return null;
     }
 
     @Override

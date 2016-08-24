@@ -17,6 +17,16 @@ public class PoiPo {
 
     private Timestamp updateTime;
 
+    public PoiPo(BigDecimal longitude, BigDecimal latitude, Integer isValid) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.isValid = isValid;
+    }
+
+    public PoiPo() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

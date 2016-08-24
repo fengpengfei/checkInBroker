@@ -2,7 +2,7 @@ package com.fooluodi.broker.controllers;
 
 import com.fooluodi.broker.checkin.CheckInService;
 import com.fooluodi.broker.framework.ResponseEntity;
-import com.fooluodi.broker.user.service.UserService;
+import com.fooluodi.broker.framework.WebAPIBaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping(value = "/checkin")
-public class CheckInController {
+public class CheckInController extends WebAPIBaseController {
     private static final Logger logger = LoggerFactory.getLogger(CheckInController.class);
 
     @Resource
