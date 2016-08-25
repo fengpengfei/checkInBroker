@@ -122,6 +122,7 @@ public class UserServiceImpl implements UserService {
         userInfo.setCheckTimes(0);
         userInfo.setCreateTime(new Timestamp(System.currentTimeMillis()));
         userInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        userInfo.setValidSession(validSession);
 
         ValidateHelper.validate(userInfo);
 
