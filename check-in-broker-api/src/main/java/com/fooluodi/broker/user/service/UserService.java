@@ -44,4 +44,10 @@ public interface UserService {
      */
     UserInfoBo getUserById(int userId);
 
+    /**
+     * 过滤用户, 返回需要打卡的用户
+     * @param users
+     * @return
+     */
+    List<UserInfoBo> filterUers(List<UserInfoBo> users);
 }

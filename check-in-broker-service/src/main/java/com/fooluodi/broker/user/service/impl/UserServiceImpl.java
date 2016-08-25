@@ -13,6 +13,8 @@ import com.fooluodi.broker.user.exception.UserExceptionCode;
 import com.fooluodi.broker.user.po.UserInfo;
 import com.fooluodi.broker.user.service.UserService;
 import com.fooluodi.broker.util.CopyUtils;
+import com.fooluodi.broker.util.time.DateUtil;
+import com.fooluodi.broker.util.time.Week;
 import com.fooluodi.broker.util.validate.function.ValidateHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,8 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -146,6 +150,22 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(userInfo, userInfoBo);
 
         return userInfoBo;
+    }
+
+    @Override
+    public List<UserInfoBo> filterUers(List<UserInfoBo> users) {
+        logger.info("origin users:{}", users);
+
+        List<UserInfoBo> needCheckInUsers = new ArrayList<>();
+
+        //目前所有用户默认工作日打卡
+        Week week = DateUtil.getWeek(new Date());
+
+        if (week.equals(Week.SATURDAY) || week.equals(Week.SUNDAY)){
+            return needCheckInUsers;
+        }
+
+        return users;
     }
 
     private void saveLog(int type, int userId, String detail) {

@@ -8,8 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Created by di on 23/8/2016.
@@ -38,6 +40,12 @@ public class CheckInWorker {
 
         List<UserInfoBo> allUsers = userService.getAllUsers();
 
+        //filter
+        List<UserInfoBo> needCheckInUsers = userService.filterUers(allUsers);
+
+        logger.info("check in for users:{}"
+                , needCheckInUsers.stream().map(userInfoBo -> userInfoBo.getId()).collect(Collectors.toList()));
+
         //休息随机时间, 5分钟 + 20分钟内随机时间
         Random random = new Random();
         int i = random.nextInt(SLEEP_RANDOM_LIMIT_TIME_MAX);
@@ -48,7 +56,7 @@ public class CheckInWorker {
         } catch (InterruptedException e) {
         }
 
-        allUsers.stream().forEach(user -> {
+        needCheckInUsers.stream().forEach(user -> {
             try {
                 this.checkInWithTryTimes(user, DEFAULT_TRY_TIMES);
             } catch (Exception e) {
