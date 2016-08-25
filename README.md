@@ -9,13 +9,13 @@
 ```
 
 ### 功能
-* 自动大象打卡
-* 手动大象打卡
+* 自动daxiang打卡
+* 手动daxiang打卡
 * 操作日志查看
 
 
 ### 原理
-用户手动``注册``, 提交大象的登录cookie, 模拟用户行为, 调用打卡api完成打卡
+用户手动``注册``, 提交daxiang的登录cookie, 模拟用户行为, 调用打卡api完成打卡
 
 ### 机制
 
@@ -47,8 +47,8 @@ www.${example}.com  当example代表百度时
 ```
 ${host}/cmd/addAnonymousUser?session=${session}
 
-其中session为大象app抓包的cookie, 
-使用任何代理, 抓取大象的http包, 截取其中所有cookie
+其中session为daxiangapp抓包的cookie, 
+使用任何代理, 抓取daxiang的http包, 截取其中所有cookie
 其cookie类似下列形式:
 
 "JSESSIONID=xxxxxxjkxjkxjkA7E0FF75C6B3;
