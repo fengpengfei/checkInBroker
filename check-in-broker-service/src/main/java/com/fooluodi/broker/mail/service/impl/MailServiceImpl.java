@@ -58,7 +58,7 @@ public class MailServiceImpl implements MailService {
 
         MimeMessage message = new MimeMessage(mailSession);
         // 发信人
-        message.setFrom(new InternetAddress("from@sendcloud.org", "fromname", "UTF-8"));
+        message.setFrom(new InternetAddress("diwa@fooluodi.com", "CheckInReporter", "UTF-8"));
         // 收件人地址
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
         // 邮件主题

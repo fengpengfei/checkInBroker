@@ -100,8 +100,10 @@ public class CheckInServiceImpl implements CheckInService {
         defaultHeaders.put("Cookie", cookieStr);
 
         logDetail.append("check in for:").append(userInfoBo).append("\n");
+
+        HttpResponseEntity responseEntity = new HttpResponseEntity();
         try {
-            HttpResponseEntity responseEntity = doJsonPost(CHECK_IN_URL, JsonHelper.transObjToJsonString(poi), defaultHeaders, ENCODE_UTF8, REDIRECT_LIMIT_MAX);
+            responseEntity = doJsonPost(CHECK_IN_URL, JsonHelper.transObjToJsonString(poi), defaultHeaders, ENCODE_UTF8, REDIRECT_LIMIT_MAX);
 
             Assert.isTrue(responseEntity.getResponseCode() == 200, "failed!");
 
@@ -115,12 +117,12 @@ public class CheckInServiceImpl implements CheckInService {
 
         this.saveOplog(userInfoBo.getId(), logDetail.toString(), result);
 
-        this.handleUserResult(userInfoBo, poi, result);
+        this.handleUserResult(userInfoBo, poi, result, responseEntity.getResponseContent());
 
         return result;
     }
 
-    private void handleUserResult(UserInfoBo userInfoBo, POI poi, boolean result) {
+    private void handleUserResult(UserInfoBo userInfoBo, POI poi, boolean result, String context) {
         logger.info("handle user result");
 
         if (Objects.equals(userInfoBo.getMailNotify(), Constant.YES)) {
@@ -131,6 +133,7 @@ public class CheckInServiceImpl implements CheckInService {
                     .append("打卡时间:").append(new Date()).append("<br>")
                     .append("打卡经纬度:").append(poi).append("<br>")
                     .append("打卡结果:").append(result).append("<br>")
+                    .append("x象返回:").append(context).append("<br>")
                     .append("</html>");
 
             try {
