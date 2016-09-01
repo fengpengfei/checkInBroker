@@ -1,6 +1,5 @@
 package com.fooluodi.broker.user.dao;
 
-
 import com.fooluodi.broker.user.po.UserInfo;
 import org.apache.ibatis.annotations.Param;
 

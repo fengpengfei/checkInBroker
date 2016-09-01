@@ -6,13 +6,16 @@
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="user_passwd" property="userPasswd" jdbcType="VARCHAR" />
     <result column="valid_session" property="validSession" jdbcType="VARCHAR" />
+    <result column="mail_address" property="mailAddress" jdbcType="VARCHAR" />
+    <result column="mail_notify" property="mailNotify" jdbcType="TINYINT" />
     <result column="check_times" property="checkTimes" jdbcType="INTEGER" />
     <result column="is_valid" property="isValid" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, user_passwd, valid_session, check_times, is_valid, create_time, update_time
+    id, user_name, user_passwd, valid_session, mail_address, mail_notify, check_times, 
+    is_valid, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -20,31 +23,19 @@
     from user_info
     where id = #{id,jdbcType=INTEGER}
   </select>
-
-  <select id="getUserByType" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from user_info
-    where is_valid = #{userType}
-  </select>
-
-  <select id="getAllUsers" resultMap="BaseResultMap"  >
-    select
-    <include refid="Base_Column_List" />
-    from user_info
-  </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fooluodi.broker.user.po.UserInfo" >
+  <insert id="insert" parameterType="com.fooluodi.broker.user.po.UserInfo" >
     insert into user_info (id, user_name, user_passwd, 
-      valid_session, check_times, is_valid, 
-      create_time, update_time)
+      valid_session, mail_address, mail_notify, 
+      check_times, is_valid, create_time, 
+      update_time)
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPasswd,jdbcType=VARCHAR}, 
-      #{validSession,jdbcType=VARCHAR}, #{checkTimes,jdbcType=INTEGER}, #{isValid,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{validSession,jdbcType=VARCHAR}, #{mailAddress,jdbcType=VARCHAR}, #{mailNotify,jdbcType=TINYINT}, 
+      #{checkTimes,jdbcType=INTEGER}, #{isValid,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.fooluodi.broker.user.po.UserInfo" >
     insert into user_info
@@ -60,6 +51,12 @@
       </if>
       <if test="validSession != null" >
         valid_session,
+      </if>
+      <if test="mailAddress != null" >
+        mail_address,
+      </if>
+      <if test="mailNotify != null" >
+        mail_notify,
       </if>
       <if test="checkTimes != null" >
         check_times,
@@ -87,6 +84,12 @@
       <if test="validSession != null" >
         #{validSession,jdbcType=VARCHAR},
       </if>
+      <if test="mailAddress != null" >
+        #{mailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailNotify != null" >
+        #{mailNotify,jdbcType=TINYINT},
+      </if>
       <if test="checkTimes != null" >
         #{checkTimes,jdbcType=INTEGER},
       </if>
@@ -113,6 +116,12 @@
       <if test="validSession != null" >
         valid_session = #{validSession,jdbcType=VARCHAR},
       </if>
+      <if test="mailAddress != null" >
+        mail_address = #{mailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailNotify != null" >
+        mail_notify = #{mailNotify,jdbcType=TINYINT},
+      </if>
       <if test="checkTimes != null" >
         check_times = #{checkTimes,jdbcType=INTEGER},
       </if>
@@ -133,10 +142,25 @@
     set user_name = #{userName,jdbcType=VARCHAR},
       user_passwd = #{userPasswd,jdbcType=VARCHAR},
       valid_session = #{validSession,jdbcType=VARCHAR},
+      mail_address = #{mailAddress,jdbcType=VARCHAR},
+      mail_notify = #{mailNotify,jdbcType=TINYINT},
       check_times = #{checkTimes,jdbcType=INTEGER},
       is_valid = #{isValid,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getUserByType" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where is_valid = #{userType}
+  </select>
+
+  <select id="getAllUsers" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+  </select>
 </mapper>

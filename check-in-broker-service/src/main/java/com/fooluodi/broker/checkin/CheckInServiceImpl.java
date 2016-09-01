@@ -1,5 +1,7 @@
 package com.fooluodi.broker.checkin;
 
+import com.fooluodi.broker.constant.Constant;
+import com.fooluodi.broker.mail.service.MailService;
 import com.fooluodi.broker.poi.bo.POI;
 import com.fooluodi.broker.operation.log.bo.LogBo;
 import com.fooluodi.broker.operation.log.constant.LogType;
@@ -27,9 +29,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -54,6 +58,9 @@ public class CheckInServiceImpl implements CheckInService {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private MailService mailService;
 
     public static PoolingClientConnectionManager connectionManager = new PoolingClientConnectionManager();
     public static HttpClient client;
@@ -99,7 +106,7 @@ public class CheckInServiceImpl implements CheckInService {
             Assert.isTrue(responseEntity.getResponseCode() == 200, "failed!");
 
             logDetail.append("check in result:").append(responseEntity.getResponseCode()).append("\n")
-                    .append( " result body:").append(responseEntity.getResponseContent()).append("\n");
+                    .append(" result body:").append(responseEntity.getResponseContent()).append("\n");
 
         } catch (IOException e) {
             logger.error("check in error!", e);
@@ -107,7 +114,31 @@ public class CheckInServiceImpl implements CheckInService {
         }
 
         this.saveOplog(userInfoBo.getId(), logDetail.toString(), result);
+
+        this.handleUserResult(userInfoBo, poi, result);
+
         return result;
+    }
+
+    private void handleUserResult(UserInfoBo userInfoBo, POI poi, boolean result) {
+        logger.info("handle user result");
+
+        if (Objects.equals(userInfoBo.getMailNotify(), Constant.YES)) {
+            StringBuilder body = new StringBuilder();
+
+            body.append("<html>")
+                    .append("hi ").append(userInfoBo.getUserName()).append(":<br><br>")
+                    .append("打卡时间:").append(new Date()).append("<br>")
+                    .append("打卡经纬度:").append(poi).append("<br>")
+                    .append("打卡结果:").append(result).append("<br>")
+                    .append("</html>");
+
+            try {
+                mailService.sendMail(userInfoBo.getMailAddress(), body.toString(), "打卡日报");
+            } catch (Exception e){
+                logger.error("report mail failed.", e);
+            }
+        }
     }
 
     @Override

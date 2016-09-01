@@ -21,6 +21,10 @@ public class UserInfoBo {
 
     private Integer checkTimes;
 
+    private String mailAddress;
+
+    private Integer mailNotify;
+
     @NotNull
     private Integer isValid;
 
@@ -36,11 +40,29 @@ public class UserInfoBo {
         sb.append(", userPasswd='").append(userPasswd).append('\'');
         sb.append(", validSession='").append(validSession).append('\'');
         sb.append(", checkTimes=").append(checkTimes);
+        sb.append(", mailAddress='").append(mailAddress).append('\'');
+        sb.append(", mailNotify=").append(mailNotify);
         sb.append(", isValid=").append(isValid);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append('}');
         return sb.toString();
+    }
+
+    public String getMailAddress() {
+        return mailAddress;
+    }
+
+    public void setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
+    }
+
+    public Integer getMailNotify() {
+        return mailNotify;
+    }
+
+    public void setMailNotify(Integer mailNotify) {
+        this.mailNotify = mailNotify;
     }
 
     public Integer getId() {

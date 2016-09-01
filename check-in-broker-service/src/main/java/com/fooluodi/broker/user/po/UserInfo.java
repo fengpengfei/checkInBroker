@@ -1,6 +1,6 @@
 package com.fooluodi.broker.user.po;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class UserInfo {
     private Integer id;
@@ -11,13 +11,17 @@ public class UserInfo {
 
     private String validSession;
 
+    private String mailAddress;
+
+    private Integer mailNotify;
+
     private Integer checkTimes;
 
     private Integer isValid;
 
-    private Timestamp createTime;
+    private Date createTime;
 
-    private Timestamp updateTime;
+    private Date updateTime;
 
     @Override
     public String toString() {
@@ -26,6 +30,8 @@ public class UserInfo {
         sb.append(", userName='").append(userName).append('\'');
         sb.append(", userPasswd='").append(userPasswd).append('\'');
         sb.append(", validSession='").append(validSession).append('\'');
+        sb.append(", mailAddress='").append(mailAddress).append('\'');
+        sb.append(", mailNotify=").append(mailNotify);
         sb.append(", checkTimes=").append(checkTimes);
         sb.append(", isValid=").append(isValid);
         sb.append(", createTime=").append(createTime);
@@ -66,6 +72,22 @@ public class UserInfo {
         this.validSession = validSession;
     }
 
+    public String getMailAddress() {
+        return mailAddress;
+    }
+
+    public void setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
+    }
+
+    public Integer getMailNotify() {
+        return mailNotify;
+    }
+
+    public void setMailNotify(Integer mailNotify) {
+        this.mailNotify = mailNotify;
+    }
+
     public Integer getCheckTimes() {
         return checkTimes;
     }
@@ -82,19 +104,19 @@ public class UserInfo {
         this.isValid = isValid;
     }
 
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 }
