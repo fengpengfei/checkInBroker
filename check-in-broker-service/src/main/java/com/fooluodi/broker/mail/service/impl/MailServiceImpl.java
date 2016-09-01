@@ -33,7 +33,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendMail(String address, String context, String subject) throws MessagingException, UnsupportedEncodingException {
-        logger.info("send mail, address:{}, context:{}, subject:{}");
+        logger.info("send mail, address:{}, context:{}, subject:{}", address, context, subject);
 
         // 配置javamail
         Properties props = System.getProperties();
@@ -94,7 +94,7 @@ public class MailServiceImpl implements MailService {
             logger.info("messageId:{}", messageId);
             logger.info("emailId:{}", emailId);
         }catch (Exception e){
-
+            logger.error("send mail error!", e);
         }finally {
             transport.close();
         }

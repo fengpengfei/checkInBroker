@@ -1,5 +1,6 @@
 package com.fooluodi.broker.checkin;
 
+import com.fooluodi.broker.AbstractTestCase;
 import com.fooluodi.broker.user.bo.UserInfoBo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +12,8 @@ import javax.annotation.Resource;
 /**
  * Created by di on 21/8/2016.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:spring/root-context.xml"})
-public class CheckInTest {
+
+public class CheckInTest extends AbstractTestCase{
     @Resource
     private CheckInService checkInService;
 
