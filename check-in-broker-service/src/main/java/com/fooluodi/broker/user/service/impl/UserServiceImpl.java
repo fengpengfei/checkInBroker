@@ -1,9 +1,9 @@
 package com.fooluodi.broker.user.service.impl;
 
+import com.fooluodi.broker.constant.Constant;
 import com.fooluodi.broker.exception.SystemException;
 import com.fooluodi.broker.operation.log.bo.LogBo;
 import com.fooluodi.broker.operation.log.constant.LogType;
-import com.fooluodi.broker.operation.log.po.Log;
 import com.fooluodi.broker.operation.log.service.LogService;
 import com.fooluodi.broker.user.bo.UserInfoBo;
 import com.fooluodi.broker.user.constant.UserDefaultConstant;
@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -97,13 +98,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int addUser(String userName, String passwd, String session) {
-        logger.info("add user, userName:{}, passwd:{}, session:{}", userName, passwd, session);
+    public int addUser(String userName, String passwd, String session, String mailAddress) {
+        logger.info("add user, userName:{}, passwd:{}, session:{}, mail:{}", userName, passwd, session, mailAddress);
 
         UserInfoBo userInfo = new UserInfoBo();
         userInfo.setUserName(userName);
         userInfo.setUserPasswd(passwd);
         userInfo.setIsValid(UserType.NORMAL_USER);
+        userInfo.setMailAddress(mailAddress);
+        userInfo.setMailNotify(StringUtils.isEmpty(mailAddress) ? Constant.YES : Constant.NO);
         userInfo.setValidSession(session);
         userInfo.setCheckTimes(0);
         userInfo.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -142,7 +145,7 @@ public class UserServiceImpl implements UserService {
             userInfo = userInfoMapper.selectByPrimaryKey(userId);
 
             Assert.notNull(userInfo, "user not found!");
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("user id not valid!", e);
             throw new SystemException(UserExceptionCode.USER_NOT_FOUND);
         }
@@ -161,7 +164,7 @@ public class UserServiceImpl implements UserService {
         //目前所有用户默认工作日打卡
         Week week = DateUtil.getWeek(new Date());
 
-        if (week.equals(Week.SATURDAY) || week.equals(Week.SUNDAY)){
+        if (week.equals(Week.SATURDAY) || week.equals(Week.SUNDAY)) {
             return needCheckInUsers;
         }
 
