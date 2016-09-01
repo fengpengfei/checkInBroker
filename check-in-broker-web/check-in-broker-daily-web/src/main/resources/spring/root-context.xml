@@ -17,6 +17,7 @@
             <!--&lt;!&ndash;本地环境 &ndash;&gt;-->
             <list>
                 <value>classpath:properties/database.properties</value>
+                <value>classpath:properties/mail.properties</value>
             </list>
         </property>
         <property name="fileEncoding" value="UTF-8"/>
