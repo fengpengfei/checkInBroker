@@ -26,9 +26,9 @@ public class MailServiceImpl implements MailService {
     private static final String SENDCLOUD_SMTP_HOST = "smtp.sendcloud.net";
     private static final int SENDCLOUD_SMTP_PORT = 25;
 
-    @Value("apiUser")
+    @Value("${apiUser}")
     private String apiUser;
-    @Value("apiKey")
+    @Value("${apiKey}")
     private String apiKey;
 
     @Override
@@ -81,7 +81,7 @@ public class MailServiceImpl implements MailService {
 //        attachmentBodyPart.setDataHandler(new DataHandler(source));
 //        attachmentBodyPart.setFileName(MimeUtility.encodeWord(file.getName()));
 //        multipart.addBodyPart(attachmentBodyPart);
-//        message.setContent(multipart);
+        message.setContent(multipart);
 
         // 连接sendcloud服务器，发送邮件
         try{
