@@ -45,7 +45,7 @@ www.${example}.com  当example代表百度时
 注册用户
 
 ```
-${host}/cmd/addAnonymousUser?session=${session}
+${host}/cmd/addAnonymousUser?session=${session}&mailAddress=${your_mail}
 
 其中session为daxiangapp抓包的cookie, 
 使用任何代理, 抓取daxiang的http包, 截取其中所有cookie
@@ -63,6 +63,8 @@ token=6a4d6b22ccc5b26925ceb153c8cf2fea;
 u=132224;
 uid=132224;
 _ga=GA1.2.1063283796.1468594765"
+
+mailAddress是你的邮箱地址, 如果填写了, 会在每次打卡后邮件通知你结果, 非必填, 可以不填写此项
 
 如果成功
 返回体如下:
