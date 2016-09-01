@@ -35,7 +35,7 @@ public interface UserService {
 
     int addUser(String userName, String passwd, String session, String mailAddress);
 
-    int addUser(String validSession);
+    int addUser(String validSession, String mailAddress);
 
     /**
      *

@@ -118,14 +118,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int addUser(String validSession) {
-        logger.info("add anonymous user, session:{}", validSession);
+    public int addUser(String validSession, String mailAddress) {
+        logger.info("add anonymous user, session:{}, mail:{}", validSession, mailAddress);
 
         UserInfoBo userInfo = new UserInfoBo();
         userInfo.setUserName(UserDefaultConstant.ANONYMOUS_USER_NAME + UUID.randomUUID().toString());
         userInfo.setUserPasswd(UserDefaultConstant.DEFAULT_PASSWD);
         userInfo.setIsValid(UserType.ANONYMOUS_USER);
         userInfo.setValidSession(UserDefaultConstant.DEFAULT_SESSION);
+        userInfo.setMailAddress(mailAddress);
+        userInfo.setMailNotify(StringUtils.isEmpty(mailAddress) ? Constant.YES : Constant.NO);
         userInfo.setCheckTimes(0);
         userInfo.setCreateTime(new Timestamp(System.currentTimeMillis()));
         userInfo.setUpdateTime(new Timestamp(System.currentTimeMillis()));

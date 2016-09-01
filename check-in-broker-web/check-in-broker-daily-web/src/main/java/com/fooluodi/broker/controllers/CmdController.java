@@ -44,10 +44,10 @@ public class CmdController extends WebAPIBaseController {
     }
 
     @RequestMapping(value = "/addAnonymousUser", method = RequestMethod.GET)
-    public ResponseEntity<?> addAnonymousUser(String session) {
-        logger.info("addAnonymousUser, session:{}", session);
+    public ResponseEntity<?> addAnonymousUser(String session, String mailAddress) {
+        logger.info("addAnonymousUser, session:{}, mail:{}", session, mailAddress);
 
-        int id = userService.addUser(session);
+        int id = userService.addUser(session, mailAddress);
 
         logger.info("add user success, userId:{}", id);
 
