@@ -130,10 +130,10 @@ public class CheckInServiceImpl implements CheckInService {
 
             body.append("<html>")
                     .append("hi ").append(userInfoBo.getUserName()).append(":<br><br>")
-                    .append("打卡时间:").append(new Date()).append("<br>")
-                    .append("打卡经纬度:").append(poi).append("<br>")
-                    .append("打卡结果:").append(result).append("<br>")
-                    .append("x象返回:").append(context).append("<br>")
+                    .append("打卡时间:").append("<br>").append(new Date()).append("<br>")
+                    .append("打卡经纬度:").append("<br>").append(poi).append("<br>")
+                    .append("打卡结果:").append("<br>").append(result).append("<br>")
+                    .append("x象返回:").append("<br>").append(context).append("<br>")
                     .append("</html>");
 
             try {
@@ -207,7 +207,7 @@ public class CheckInServiceImpl implements CheckInService {
         logger.info("response code:{}", execute.getStatusLine().getStatusCode());
 
         BufferedReader rd = new BufferedReader(
-                new InputStreamReader(execute.getEntity().getContent()));
+                new InputStreamReader(execute.getEntity().getContent(), encoding));
 
 
         StringBuilder stringBuilder = new StringBuilder();
