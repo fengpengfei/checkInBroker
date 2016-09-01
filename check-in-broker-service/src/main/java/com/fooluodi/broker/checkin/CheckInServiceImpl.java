@@ -137,7 +137,7 @@ public class CheckInServiceImpl implements CheckInService {
                     .append("</html>");
 
             try {
-                mailService.sendMail(userInfoBo.getMailAddress(), body.toString(), "打卡日报");
+                mailService.sendMail(userInfoBo.getMailAddress(), body.toString(), "打卡报告");
             } catch (Exception e){
                 logger.error("report mail failed.", e);
             }
