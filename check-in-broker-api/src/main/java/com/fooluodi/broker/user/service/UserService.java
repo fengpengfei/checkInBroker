@@ -49,5 +49,5 @@ public interface UserService {
      * @param users
      * @return
      */
-    List<UserInfoBo> filterUers(List<UserInfoBo> users);
+    List<UserInfoBo> filterUsers(List<UserInfoBo> users);
 }

@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -33,7 +32,7 @@ public class CheckInWorker {
     @Resource
     private UserService userService;
 
-    //9, 16, 20, 22 点自动运行
+    //9, 16, 21点 30 自动运行
     public void exec() {
         long start = System.currentTimeMillis();
         logger.info("worker begin!");
@@ -41,7 +40,7 @@ public class CheckInWorker {
         List<UserInfoBo> allUsers = userService.getAllUsers();
 
         //filter
-        List<UserInfoBo> needCheckInUsers = userService.filterUers(allUsers);
+        List<UserInfoBo> needCheckInUsers = userService.filterUsers(allUsers);
 
         logger.info("check in for users:{}"
                 , needCheckInUsers.stream().map(userInfoBo -> userInfoBo.getId()).collect(Collectors.toList()));

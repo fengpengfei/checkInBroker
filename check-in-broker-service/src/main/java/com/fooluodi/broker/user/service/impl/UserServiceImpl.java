@@ -25,10 +25,8 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by di on 7/8/2016.
@@ -158,7 +156,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserInfoBo> filterUers(List<UserInfoBo> users) {
+    public List<UserInfoBo> filterUsers(List<UserInfoBo> users) {
         logger.info("origin users:{}", users);
 
         List<UserInfoBo> needCheckInUsers = new ArrayList<>();
@@ -170,7 +168,10 @@ public class UserServiceImpl implements UserService {
             return needCheckInUsers;
         }
 
-        return users;
+        //如果用户的isValid = 0 也不打卡
+        List<UserInfoBo> collect = users.stream().filter(userInfoBo -> Objects.equals(userInfoBo.getIsValid(), Constant.YES)).collect(Collectors.toList());
+
+        return collect;
     }
 
     private void saveLog(int type, int userId, String detail) {

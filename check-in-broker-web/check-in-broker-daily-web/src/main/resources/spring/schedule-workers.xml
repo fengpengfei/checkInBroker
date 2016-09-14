@@ -16,7 +16,7 @@
     <bean id="checkinWorkerScheduledJobTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="voucherWorkerJob" />
         <!-- 每天9点, 16点, 20点, 22点执行 -->
-        <property name="cronExpression" value="0 0 9,14,20,22 * * ?" />
+        <property name="cronExpression" value="0 30 9,13,21 * * ?" />
     </bean>
 
 
